@@ -46,6 +46,11 @@ public class SingUpActivity extends AppCompatActivity {
 
                     //Have Space
                     Log.d("5novV1", "Have Space");
+                    MyAlert myAlert = new MyAlert(SingUpActivity.this,
+                            R.drawable.doremon48,
+                            getResources().getString(R.string.title_haveSpace),
+                            getResources().getString(R.string.message_haveSpace));
+                    myAlert.myDialog();
 
                 }   // if
 
