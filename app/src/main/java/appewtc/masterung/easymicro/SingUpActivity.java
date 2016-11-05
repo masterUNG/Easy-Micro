@@ -1,6 +1,9 @@
 package appewtc.masterung.easymicro;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +19,7 @@ public class SingUpActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button button;
     private String nameString, userString, passwordString;
+    private Uri uri;
 
 
     @Override
@@ -85,6 +89,20 @@ public class SingUpActivity extends AppCompatActivity {
         if ((requestCode == 0) && (resultCode == RESULT_OK)) {
             //Result Success
             Log.d("5novV1", "Result OK");
+
+            //SetUp Choose Image to ImageView
+            uri = data.getData();
+            try {
+
+                Bitmap bitmap = BitmapFactory
+                        .decodeStream(getContentResolver()
+                                .openInputStream(uri));
+                imageView.setImageBitmap(bitmap);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         }      // if
 
