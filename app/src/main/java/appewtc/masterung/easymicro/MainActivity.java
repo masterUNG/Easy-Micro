@@ -153,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
                 } else if (passwordString.equals(truePasswordString)) {
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
 
+                    Intent intent = new Intent(MainActivity.this, ServiceActivity.class);
+                    intent.putExtra("Name", nameStrings);
+                    intent.putExtra("Image", imageStrings);
+                    startActivity(intent);
+                    finish();
+
                 } else {
                     MyAlert myAlert = new MyAlert(context,
                             R.drawable.bird48,
