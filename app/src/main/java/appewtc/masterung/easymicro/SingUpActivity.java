@@ -1,10 +1,12 @@
 package appewtc.masterung.easymicro;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +20,10 @@ public class SingUpActivity extends AppCompatActivity {
     private EditText nameEditText, userEditText, passwordEditText;
     private ImageView imageView;
     private Button button;
-    private String nameString, userString, passwordString;
+    private String nameString, userString, passwordString, imageString,
+            imagePathString, imageNameString;
     private Uri uri;
+    private boolean aBoolean = true;
 
 
     @Override
@@ -57,7 +61,19 @@ public class SingUpActivity extends AppCompatActivity {
                             getResources().getString(R.string.message_haveSpace));
                     myAlert.myDialog();
 
-                }   // if
+                } else if (aBoolean) {
+                    // Non Choose Image
+                    MyAlert myAlert = new MyAlert(SingUpActivity.this,
+                            R.drawable.nobita48,
+                            getResources().getString(R.string.title_ImageChoose),
+                            getResources().getString(R.string.massage_ImageChoose));
+                    myAlert.myDialog();
+
+                } else {
+
+                    //Upload To Server
+
+                }
 
             }   // onClick
         });
@@ -75,7 +91,6 @@ public class SingUpActivity extends AppCompatActivity {
 
             }   // onClick
         });
-
 
 
     }   // Main Method
@@ -103,9 +118,40 @@ public class SingUpActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Check Choosed
+            aBoolean = false;
+
+            //Find Path of Image Choose
+            imagePathString = myFindPath(uri);
+            Log.d("6novV1", "Path ==> " + imagePathString);
+
+            //Find Name of Image Choose
+            imageNameString = imagePathString.substring(imagePathString.lastIndexOf("/"));
+            Log.d("6novV1", "Name ==> " + imageNameString);
 
         }      // if
 
     }   // onActivityResult
+
+    private String myFindPath(Uri uri) {
+
+        String result = null;
+        String[] strings = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, strings,
+                null , null, null);
+
+        if (cursor != null) {
+
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            result = cursor.getString(index);
+
+        } else {
+            result = uri.getPath();
+        }   // if
+
+
+        return result;
+    }
 
 }   // Main Class
