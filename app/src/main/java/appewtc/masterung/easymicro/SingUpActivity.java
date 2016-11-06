@@ -151,6 +151,14 @@ public class SingUpActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.d("6novV2", "Result ==> " + s);
+            if (Boolean.parseBoolean(s)) {
+                Toast.makeText(SingUpActivity.this, "Thank You Save OK",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(SingUpActivity.this, "Error cannon Save User",
+                        Toast.LENGTH_SHORT).show();
+            }
 
         }   // onPost
 
