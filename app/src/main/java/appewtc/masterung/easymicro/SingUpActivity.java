@@ -32,7 +32,7 @@ public class SingUpActivity extends AppCompatActivity {
 
     //Explicit
     private EditText nameEditText, userEditText, passwordEditText;
-    private ImageView imageView;
+    private ImageView imageView, takePhotoImageView;
     private Button button;
     private String nameString, userString, passwordString, imageString,
             imagePathString, imageNameString;
@@ -51,6 +51,18 @@ public class SingUpActivity extends AppCompatActivity {
         passwordEditText = (EditText) findViewById(R.id.editText3);
         imageView = (ImageView) findViewById(R.id.imageView);
         button = (Button) findViewById(R.id.button3);
+        takePhotoImageView = (ImageView) findViewById(R.id.imageView4);
+
+        //Take Photo
+        takePhotoImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 1);
+
+            }   // onClick
+        });
 
         //SignUp Controller
         button.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +252,33 @@ public class SingUpActivity extends AppCompatActivity {
             imageNameString = imagePathString.substring(imagePathString.lastIndexOf("/"));
             Log.d("6novV1", "Name ==> " + imageNameString);
 
-        }      // if
+        } else if ((requestCode == 1)&&(resultCode == RESULT_OK)) {
+            //Take Photo OK
+
+            uri = data.getData();
+
+            try {
+
+                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                imageView.setImageBitmap(bitmap);
+
+
+            } catch (Exception e) {
+                Log.d("19novV1", "e ==> " + e.toString());
+            }
+
+            //Check Choosed
+            aBoolean = false;
+
+            //Find Path of Image Choose
+            imagePathString = myFindPath(uri);
+            Log.d("19novV1", "Path ==> " + imagePathString);
+
+            //Find Name of Image Choose
+            imageNameString = imagePathString.substring(imagePathString.lastIndexOf("/"));
+            Log.d("19novV1", "Name ==> " + imageNameString);
+
+        }   // if
 
     }   // onActivityResult
 
